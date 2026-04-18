@@ -1,0 +1,295 @@
+/* Reset e Estilos Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #111111;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #DCC582;
+    color: #111111;
+    padding: 15px 40px;
+    text-decoration: none;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    letter-spacing: 1px;
+    transition: background 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #c9b374;
+}
+
+/* Section 1: Hero */
+.hero {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), 
+                url("/docs/img/hero.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: #ffffff;
+    text-align: right;
+    padding-right: 10%;
+}
+
+.hero .logo {
+    width: 100px;
+    margin-bottom: 30px;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+}
+
+.hero h1 {
+    font-size: 6rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -2px;
+}
+
+.hero h3 {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 40px;
+}
+
+/* Section 2: About */
+.about {
+    padding: 100px 0;
+    background-color: #ffffff;
+}
+
+.about-image img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 5px;
+}
+
+.about-text h3 {
+    font-size: 2rem;
+    color: #111111;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+/* Section 3: Differences */
+.differences {
+    padding: 80px 0;
+    background-color: #4B4F64;
+    color: #ffffff;
+    text-align: center;
+}
+
+.differences h2 {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+}
+
+.diff-item {
+    padding: 20px;
+}
+
+.diff-item h5 {
+    font-size: 1.2rem;
+    color: #DCC582;
+}
+
+.diff-item h3 {
+    font-size: 1.5rem;
+}
+
+/* Section 5: Welcome */
+.welcome {
+    padding: 100px 0;
+    background-color: #3A465D;
+    color: #ffffff;
+    text-align: center;
+}
+
+.welcome h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+}
+
+.welcome-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.welcome-content p {
+    margin-bottom: 20px;
+}
+
+/* Section 7: Testimonials */
+.testimonials {
+    padding: 100px 0;
+    background-color: #FCF9F1;
+    text-align: center;
+}
+
+.testimonial-box {
+    max-width: 700px;
+    margin: 0 auto;
+    font-style: italic;
+}
+
+.testimonial-box p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.testimonial-box h6 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* Section 8: Team */
+.team {
+    padding: 100px 0;
+    background-color: #3A465D;
+    color: #ffffff;
+    text-align: center;
+}
+
+.team h2 {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+}
+
+.team-member img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.team-member h5 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+
+.team-member p {
+    font-size: 0.9rem;
+    color: #DCC582;
+}
+
+/* Section 9: Free Consultation */
+.free-consultation {
+    padding: 100px 0;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), 
+                url("https://images01.nicepage.io/45/97/4597c2089458076ce936fbb905c52016.jpeg");
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    text-align: center;
+}
+
+.free-consultation h3 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.free-consultation p {
+    margin-bottom: 40px;
+}
+
+/* Section 10: Contact */
+.contact {
+    padding: 100px 0;
+    background-color: #F2F2F2;
+}
+
+.contact h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    font-family: inherit;
+}
+
+.contact-form textarea {
+    height: 150px;
+}
+
+.contact-info h3 {
+    font-size: 1.8rem;
+}
+
+/* Footer */
+footer {
+    padding: 40px 0;
+    background-color: #333333;
+    color: #ffffff;
+    text-align: center;
+}
+
+footer a {
+    color: #DCC582;
+    text-decoration: none;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .flex {
+        flex-direction: column;
+    }
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero h1 {
+        font-size: 3rem;
+    }
+}
+
