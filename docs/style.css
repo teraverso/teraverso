@@ -217,7 +217,7 @@ h1, h2, h3, h4, h5, h6 {
 .free-consultation {
     padding: 100px 0;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), 
-                url("https://images01.nicepage.io/45/97/4597c2089458076ce936fbb905c52016.jpeg");
+                url("/img/hero.jpg");
     background-size: cover;
     background-position: center;
     color: #ffffff;
