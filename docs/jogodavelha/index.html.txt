@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidade - Jogo da Velha Neon</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #eeeeee;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #080808; /* Fundo escuro combinando com o app */
+        }
+        .container {
+            background-color: #121212;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+            border: 1px solid #333;
+        }
+        h1 { color: #00E5FF; text-align: center; text-transform: uppercase; letter-spacing: 2px; }
+        h2 { color: #FF1744; border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 30px; }
+        p { margin-bottom: 15px; color: #cccccc; }
+        strong { color: #00FF41; }
+        .footer { text-align: center; margin-top: 30px; font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Política de Privacidade</h1>
+        <p>Esta Política de Privacidade descreve como o <strong>Jogo da Velha - Neon Edition</strong> lida com as informações dos usuários.</p>
+
+        <h2>1. Coleta de Informações</h2>
+        <p>O <strong>Jogo da Velha - Neon Edition</strong> foi desenvolvido com foco total na privacidade do usuário. O aplicativo <strong>NÃO coleta, armazena ou transmite</strong> qualquer tipo de informação pessoal identificável, como nome, e-mail, número de telefone ou localização.</p>
+
+        <h2>2. Uso de Dados</h2>
+        <p>Como não coletamos dados, não há processamento de informações pessoais. O jogo funciona inteiramente de forma local no seu dispositivo Android, sem necessidade de conexão com servidores externos para a jogabilidade básica.</p>
+
+        <h2>3. Permissões do Dispositivo</h2>
+        <p>O aplicativo pode solicitar acesso apenas a recursos básicos do sistema necessários para sua funcionalidade, como o motor de vibração (para o feedback háptico neon). Nenhuma dessas permissões é usada para acessar dados privados ou arquivos do usuário.</p>
+
+        <h2>4. Publicidade e Terceiros</h2>
+        <p>Atualmente, o aplicativo não exibe anúncios intrusivos e não compartilha informações com redes de publicidade de terceiros ou serviços de análise de dados (analytics) que identifiquem o usuário.</p>
+
+        <h2>5. Alterações nesta Política</h2>
+        <p>Podemos atualizar nossa Política de Privacidade ocasionalmente. Recomendamos que você revise esta página periodicamente para quaisquer alterações. As mudanças entram em vigor imediatamente após sua publicação nesta página.</p>
+
+        <h2>6. Contato</h2>
+        <p>Se você tiver alguma dúvida ou sugestão sobre esta Política de Privacidade, não hesite em entrar em contato através do e-mail de suporte fornecido na página do aplicativo na Google Play Store.</p>
+
+        <div class="footer">
+            <p>&copy; 2024 Jogo da Velha Neon Edition - Todos os direitos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>
