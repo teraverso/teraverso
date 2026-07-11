@@ -111,18 +111,21 @@ function normalizeAngleDelta(delta) {
 }
 
 function setupGyroControls() {
-  let initialAlpha = null;
+  let previousAlpha = null;
+  let accumulatedLon = 0;
 
   function handleOrientation(event) {
     if (event.alpha === null || event.beta === null) return;
 
-    if (initialAlpha === null) {
-      initialAlpha = event.alpha;
+    if (previousAlpha === null) {
+      previousAlpha = event.alpha;
     }
 
-    const deltaAlpha = normalizeAngleDelta(event.alpha - initialAlpha);
+    const frameDelta = normalizeAngleDelta(event.alpha - previousAlpha);
+    accumulatedLon -= frameDelta;
+    previousAlpha = event.alpha;
 
-    targetLon = -deltaAlpha;
+    targetLon = accumulatedLon;
     targetLat = Math.max(-latLimit, Math.min(latLimit, event.beta - 90));
   }
 
