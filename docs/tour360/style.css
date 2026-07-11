@@ -1,0 +1,502 @@
+/* ==========================================================
+   BOTÃO DE PERMISSÃO DE GIROSCÓPIO (iOS)
+   ========================================================== */
+#gyro-permission-btn {
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  background: rgba(0, 229, 255, 0.18);
+  border: 1px solid rgba(0, 229, 255, 0.6);
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+#gyro-permission-btn:active {
+  background: rgba(0, 229, 255, 0.32);
+}
+
+/* ==========================================================
+   RESET & BASE
+   ========================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #05070a;
+  color: #ffffff;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+}
+
+/* ==========================================================
+   CAMADA 3D (BACKGROUND)
+   ========================================================== */
+#panorama-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  cursor: grab;
+}
+
+#panorama-container:active {
+  cursor: grabbing;
+}
+
+#panorama-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================================
+   CAMADA DE INTERFACE (UI)
+   ========================================================== */
+.ui-layer {
+  position: relative;
+  z-index: 2;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 32px 20px;
+  pointer-events: none;
+}
+
+.ui-layer a,
+.ui-layer button {
+  pointer-events: auto;
+}
+
+/* ==========================================================
+   NAVBAR
+   ========================================================== */
+.navbar {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 22px 32px;
+  background: rgba(6, 9, 13, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.logo-title {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 1.5px;
+}
+
+.logo-subtitle {
+  font-size: 9px;
+  letter-spacing: 1.8px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #00E5FF;
+}
+
+.nav-link.active {
+  color: #00E5FF;
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background: #00E5FF;
+  border-radius: 2px;
+}
+
+/* ==========================================================
+   HERO
+   ========================================================== */
+.hero {
+  pointer-events: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 720px;
+  width: 100%;
+  padding: 0 0 0 24px;
+  flex: 1;
+  min-height: 0;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -60px;
+  transform: translateY(-50%);
+  width: min(900px, 140%);
+  height: 90%;
+  max-height: 420px;
+  background: radial-gradient(
+    ellipse 65% 60% at 30% 40%,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.35) 35%,
+    rgba(0, 0, 0, 0.12) 65%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+.eyebrow {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 14px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.hero-title {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.65), 0 8px 30px rgba(0, 0, 0, 0.45);
+}
+
+.cta-button {
+  pointer-events: auto;
+  background: rgba(120, 150, 180, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 16px 30px;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+
+.cta-button:hover {
+  background: rgba(0, 229, 255, 0.25);
+  border-color: #00E5FF;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================
+   GALERIA
+   ========================================================== */
+.gallery {
+  pointer-events: none;
+  display: flex;
+  gap: 16px;
+  margin-top: 36px;
+  max-width: 900px;
+}
+
+.portfolio-card {
+  pointer-events: auto;
+  width: 170px;
+  background: rgba(10, 14, 20, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0, 229, 255, 0.5);
+}
+
+.card-thumb {
+  width: 100%;
+  height: 90px;
+  overflow: hidden;
+}
+
+.card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.portfolio-card:hover .card-thumb img {
+  transform: scale(1.08);
+  filter: brightness(1.1);
+}
+
+.card-label {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 12px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* ==========================================================
+   RODAPÉ / BENEFÍCIOS
+   ========================================================== */
+.benefits-bar {
+  pointer-events: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 28px 40px;
+  background: rgba(6, 9, 13, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.benefit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.benefit-icon {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.benefit-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.benefit-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  margin-bottom: 4px;
+}
+
+.benefit-desc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 400;
+}
+
+/* ==========================================================
+   RESPONSIVIDADE
+   ========================================================== */
+@media (max-width: 960px) {
+  .nav-links {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 38px;
+  }
+
+  .gallery {
+    flex-wrap: wrap;
+  }
+
+  .benefits-bar {
+    flex-direction: column;
+    gap: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  html, body {
+    height: auto;
+    min-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  #panorama-container {
+    position: fixed;
+  }
+
+  .ui-layer {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+    padding: 16px 16px 24px;
+    gap: 28px;
+  }
+
+  .navbar {
+    padding: 14px 20px;
+  }
+
+  .logo-title {
+    font-size: 14px;
+  }
+
+  .logo-subtitle {
+    font-size: 8px;
+  }
+
+  .hero {
+    padding-left: 0;
+    justify-content: flex-start;
+    padding-top: 90px;
+  }
+
+  .hero::before {
+    left: -20px;
+  }
+
+  .hero-title {
+    font-size: 30px;
+  }
+
+  .gallery {
+    flex-direction: column;
+    max-width: 100%;
+    margin-top: 28px;
+    gap: 12px;
+  }
+
+  .portfolio-card {
+    width: 100%;
+  }
+
+  .card-thumb {
+    height: 120px;
+  }
+
+  .benefits-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 22px;
+    padding: 24px 24px;
+  }
+
+  .benefit {
+    flex-direction: row;
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .benefit-text {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 26px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+  }
+}
+
+@media (max-height: 760px) {
+  .navbar {
+    padding: 14px 32px;
+  }
+
+  .hero-title {
+    font-size: 42px;
+    margin-bottom: 20px;
+  }
+
+  .gallery {
+    margin-top: 22px;
+  }
+
+  .benefits-bar {
+    padding: 18px 40px;
+  }
+}
