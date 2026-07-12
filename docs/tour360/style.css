@@ -291,6 +291,11 @@ button {
   border-color: rgba(0, 229, 255, 0.5);
 }
 
+.portfolio-card.active {
+  border-color: #00E5FF;
+  box-shadow: 0 0 0 1px rgba(0, 229, 255, 0.4), 0 8px 24px rgba(0, 229, 255, 0.15);
+}
+
 .card-thumb {
   width: 100%;
   height: 90px;

@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Observação: a troca do panorama 360° ao clicar nos cards é controlada
+  // pelo panorama3d.js (que também cuida do crossfade entre as imagens).
+  // Aqui só registramos o clique para fins de log/depuração.
   const portfolioCards = document.querySelectorAll('.portfolio-card');
 
   portfolioCards.forEach((card) => {

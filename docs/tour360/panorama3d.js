@@ -22,31 +22,158 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x05070a, 1);
 container.appendChild(renderer.domElement);
 
-const geometry = new THREE.SphereGeometry(500, 60, 40);
-geometry.scale(-1, 1, 1);
+/* ==========================================================
+   TRANSIÇÃO ENTRE PANORAMAS (CROSSFADE)
+   ==========================================================
+   Estratégia: duas esferas concêntricas.
+   - sphereOuter (raio 500): mostra o panorama ATUAL, sempre em opacidade 1.
+   - sphereInner (raio 498, ligeiramente menor/mais perto da câmera):
+     recebe o PRÓXIMO panorama e tem sua opacidade animada de 0 a 1.
 
-const textureLoader = new THREE.TextureLoader();
-textureLoader.setCrossOrigin('anonymous');
+   Como a câmera fica no centro, o raio de visão sempre encontra
+   primeiro a esfera interna (mais próxima). Quando ela está com
+   opacity 0, é "invisível" e a esfera externa aparece por trás.
+   Conforme a opacity da esfera interna sobe até 1, ela vai
+   cobrindo gradualmente a externa — esse é o efeito de crossfade.
 
-const panoramaTexture = textureLoader.load(
-  './textures/panorama.jpg',
-  () => {
-    console.log('Textura panorâmica carregada com sucesso.');
-  },
-  undefined,
-  (error) => {
-    console.error('Falha ao carregar a textura panorâmica. Verifique se o arquivo existe em ./textures/panorama.jpg', error);
-  }
-);
-panoramaTexture.colorSpace = THREE.SRGBColorSpace;
+   Ao final da transição, "gravamos" a nova textura também na
+   esfera externa e resetamos a interna para opacity 0, deixando
+   tudo pronto para a próxima troca.
+   ========================================================== */
 
-const material = new THREE.MeshBasicMaterial({
-  map: panoramaTexture
+const geometryOuter = new THREE.SphereGeometry(500, 60, 40);
+geometryOuter.scale(-1, 1, 1); // inverte para a textura aparecer na face interna
+
+const geometryInner = new THREE.SphereGeometry(498, 60, 40);
+geometryInner.scale(-1, 1, 1);
+
+const materialOuter = new THREE.MeshBasicMaterial({
+  transparent: true,
+  depthWrite: false, // evita que a transparência "esconda" o que está atrás por engano
+  opacity: 1
 });
 
-const sphere = new THREE.Mesh(geometry, material);
-scene.add(sphere);
+const materialInner = new THREE.MeshBasicMaterial({
+  transparent: true,
+  depthWrite: false,
+  opacity: 0
+});
 
+const sphereOuter = new THREE.Mesh(geometryOuter, materialOuter);
+sphereOuter.renderOrder = 0; // desenhada primeiro (fundo da transição)
+
+const sphereInner = new THREE.Mesh(geometryInner, materialInner);
+sphereInner.renderOrder = 1; // desenhada por cima (frente da transição)
+
+scene.add(sphereOuter);
+scene.add(sphereInner);
+
+// Cache de texturas já carregadas, para não baixar a mesma imagem
+// de novo toda vez que o usuário clicar no mesmo card outra vez.
+const textureLoader = new THREE.TextureLoader();
+textureLoader.setCrossOrigin('anonymous');
+const textureCache = new Map();
+
+function loadTexture(url) {
+  if (textureCache.has(url)) {
+    return Promise.resolve(textureCache.get(url));
+  }
+
+  return new Promise((resolve, reject) => {
+    textureLoader.load(
+      url,
+      (texture) => {
+        texture.colorSpace = THREE.SRGBColorSpace;
+        textureCache.set(url, texture);
+        resolve(texture);
+      },
+      undefined,
+      (error) => reject(error)
+    );
+  });
+}
+
+const DEFAULT_PANORAMA_URL = './textures/panorama.jpg';
+const TRANSITION_DURATION_MS = 1200;
+
+let currentPanoramaUrl = null;
+let isTransitioning = false;
+
+// Suaviza o início e o fim da transição (easeInOutQuad), em vez de
+// uma opacidade linear que pareceria mais "mecânica".
+function easeInOutQuad(t) {
+  return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+}
+
+function switchPanorama(url) {
+  if (isTransitioning || url === currentPanoramaUrl) return;
+  isTransitioning = true;
+
+  loadTexture(url)
+    .then((newTexture) => {
+      materialInner.map = newTexture;
+      materialInner.opacity = 0;
+      materialInner.needsUpdate = true;
+
+      const startTime = performance.now();
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / TRANSITION_DURATION_MS, 1);
+
+        materialInner.opacity = easeInOutQuad(progress);
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          // Transição concluída: "grava" a nova textura na esfera
+          // externa e reseta a interna, deixando pronta para a próxima troca.
+          materialOuter.map = newTexture;
+          materialOuter.needsUpdate = true;
+          materialInner.opacity = 0;
+
+          currentPanoramaUrl = url;
+          isTransitioning = false;
+        }
+      }
+
+      requestAnimationFrame(step);
+    })
+    .catch((error) => {
+      console.error(`Erro ao carregar o panorama "${url}":`, error);
+      isTransitioning = false;
+    });
+}
+
+// Carrega o panorama inicial (primeiro card / padrão de abertura do site).
+loadTexture(DEFAULT_PANORAMA_URL).then((texture) => {
+  materialOuter.map = texture;
+  materialOuter.needsUpdate = true;
+  materialInner.map = texture;
+  materialInner.needsUpdate = true;
+  currentPanoramaUrl = DEFAULT_PANORAMA_URL;
+});
+
+/* ==========================================================
+   CLIQUE NOS CARDS DO PORTFÓLIO → TROCA DE PANORAMA
+   ========================================================== */
+const portfolioCards = document.querySelectorAll('.portfolio-card');
+
+portfolioCards.forEach((card) => {
+  card.addEventListener('click', () => {
+    const url = card.dataset.panorama;
+    if (!url) return;
+
+    switchPanorama(url);
+
+    portfolioCards.forEach((item) => item.classList.remove('active'));
+    card.classList.add('active');
+  });
+});
+
+/* ==========================================================
+   ROTAÇÃO DA CÂMERA (lon/lat, iguais para ambas as esferas)
+   ========================================================== */
 let lon = 0;
 let lat = 0;
 let targetLon = 0;

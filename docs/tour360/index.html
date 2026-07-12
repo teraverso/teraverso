@@ -60,27 +60,32 @@
 
     <!-- HERO -->
     <main class="hero">
-      <p class="eyebrow">IMERSÃO TOTAL NA WEB</p>
+      <p class="eyebrow">FOTOS PANORÂMICAS 360</p>
       <h1 class="hero-title">Crie Experiências 3D<br />Surpreendentes para o seu Negócio.</h1>
       <button class="cta-button" type="button">SOLICITAR ORÇAMENTO</button>
 
-      <!-- GALERIA -->
+      <!--
+        GALERIA
+        O atributo data-panorama informa ao panorama3d.js qual imagem 360°
+        carregar quando o card for clicado. O primeiro card já nasce com
+        a classe "active" porque corresponde ao panorama exibido ao abrir o site.
+      -->
       <section class="gallery" id="portfolio-gallery" aria-label="Galeria de portfólio">
-        <article class="portfolio-card">
+        <article class="portfolio-card active" data-panorama="./textures/panorama.jpg">
           <div class="card-thumb">
             <img src="https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?w=500&q=80" alt="Muralhas de Castelo" loading="lazy" />
           </div>
           <p class="card-label">Muralhas de Castelo</p>
         </article>
 
-        <article class="portfolio-card">
+        <article class="portfolio-card" data-panorama="./textures/panorama1.jpg">
           <div class="card-thumb">
             <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=500&q=80" alt="Mirante Urbano" loading="lazy" />
           </div>
           <p class="card-label">Mirante Urbano</p>
         </article>
 
-        <article class="portfolio-card">
+        <article class="portfolio-card" data-panorama="./textures/panorama2.jpg">
           <div class="card-thumb">
             <img src="https://images.unsplash.com/photo-1516214104703-d870798883c5?w=500&q=80" alt="Floresta Tropical" loading="lazy" />
           </div>
